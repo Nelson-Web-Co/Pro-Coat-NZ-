@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro Coat NZ | Plastering & Painting Nelson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Raleway', sans-serif; color:#333; background:#fff; overflow-x:hidden; }
+  h1,h2,h3 { font-family:'Cormorant Garamond', serif; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:0 4%;
+    background:#fff;
+    height:75px;
+    box-shadow:0 1px 8px rgba(0,0,0,0.08);
+  }
+  .logo {
+    display:flex; align-items:center; gap:10px;
+    font-family:'Raleway', sans-serif;
+    font-weight:800; font-size:1rem;
+    color:#1a1a1a; letter-spacing:1px;
+    text-transform:uppercase;
+  }
+  .logo-icon {
+    width:32px; height:40px;
+    border:2px solid #2abfbf;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .logo-icon::before {
+    content:'';
+    position:absolute;
+    width:8px; height:24px;
+    background:#2abfbf;
+    left:50%; transform:translateX(-50%);
+    clip-path:polygon(50% 0%, 0% 100%, 100% 100%);
+    top:4px;
+  }
+  .logo-text { line-height:1.1; }
+  .logo-text .top { font-size:1rem; letter-spacing:3px; }
+  .logo-text .bottom { font-size:.55rem; letter-spacing:4px; color:#666; font-weight:500; }
+  .nav-links { display:flex; gap:32px; list-style:none; align-items:center; }
+  .nav-links a {
+    color:#333; text-decoration:none;
+    font-size:.8rem; font-weight:600;
+    letter-spacing:.5px; text-transform:uppercase;
+    padding-bottom:4px; border-bottom:2px solid transparent;
+    transition:all .2s;
+  }
+  .nav-links a:hover, .nav-links a.active { border-bottom-color:#2abfbf; color:#1a1a1a; }
+  .nav-phone {
+    background:#2abfbf; color:#fff;
+    padding:11px 28px; border-radius:30px;
+    font-size:.8rem; font-weight:700;
+    letter-spacing:1px; text-decoration:none;
+    transition:background .2s;
+  }
+  .nav-phone:hover { background:#1fa8a8; }
+
+  /* SLIDESHOW */
+  .slideshow {
+    position:absolute; inset:0; z-index:0;
+  }
+  .slide {
+    position:absolute; inset:0;
+    background-size:cover; background-position:center;
+    opacity:0; transition:opacity 1.2s ease;
+  }
+  .slide.active { opacity:1; }
+  .slide:first-child { opacity:1; }
+  .slideshow-overlay {
+    position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.55) 100%);
+  }
+  .slideshow-dots {
+    position:absolute; bottom:24px; left:50%; transform:translateX(-50%);
+    z-index:3; display:flex; gap:10px;
+  }
+  .dot {
+    width:8px; height:8px; border-radius:50%;
+    background:rgba(255,255,255,0.4); cursor:pointer;
+    transition:all .3s; border:none;
+  }
+  .dot.active { background:#2abfbf; width:24px; border-radius:4px; }
+
+  .hero {
+    position:relative;
+    height:75vh; min-height:500px;
+    overflow:hidden;
+    margin-top:75px;
+    background:#1a1a1a;
+  }
+  .hero-content {
+    position:absolute; inset:0; z-index:2;
+    display:flex; flex-direction:column;
+    justify-content:center;
+    padding:0 8%;
+  }
+  .hero h1 {
+    font-size:clamp(2.4rem, 5vw, 4rem);
+    color:#fff; font-weight:600;
+    line-height:1.2; margin-bottom:14px;
+    max-width:750px;
+    text-shadow:0 2px 12px rgba(0,0,0,0.3);
+  }
+  .hero-sub {
+    color:rgba(255,255,255,0.9); font-size:1.05rem;
+    margin-bottom:32px; font-weight:300;
+    letter-spacing:.5px; max-width:650px;
+  }
+  .hero-btn {
+    display:inline-block; padding:14px 36px;
+    background:#2abfbf; color:#fff;
+    border-radius:30px; text-decoration:none;
+    font-size:.78rem; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase;
+    transition:background .2s; width:fit-content;
+  }
+  .hero-btn:hover { background:#1fa8a8; }
+
+  /* ABOUT */
+  .about {
+    padding:100px 0;
+    display:grid; grid-template-columns:1fr 1fr;
+    background:#fff;
+  }
+  .about-img {
+    position:relative; overflow:hidden;
+  }
+  .about-img-inner {
+    display:grid; grid-template-columns:80px 1fr;
+    height:100%;
+  }
+  .about-img-bar { background:#e8e8e8; }
+  .about-img img {
+    width:100%; height:100%; object-fit:cover;
+    display:block;
+  }
+  .about-text {
+    padding:60px 8% 60px 6%;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .eyebrow {
+    font-family:'Raleway', sans-serif;
+    font-size:.72rem; font-weight:700;
+    letter-spacing:3px; text-transform:uppercase;
+    color:#888; margin-bottom:18px; display:block;
+  }
+  .about-text h2 {
+    font-size:clamp(2rem, 4vw, 3rem);
+    font-weight:400; color:#1a1a1a;
+    line-height:1.2; margin-bottom:28px;
+  }
+  .about-text p {
+    color:#666; font-size:.92rem;
+    line-height:1.9; margin-bottom:14px;
+    font-weight:400;
+  }
+
+  /* WHY CHOOSE — text left, image right */
+  .why {
+    padding:100px 0;
+    display:grid; grid-template-columns:1fr 1fr;
+    background:#fff;
+    border-top:1px solid #f0f0f0;
+  }
+  .why-text {
+    padding:60px 6% 60px 8%;
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  .why-text h2 {
+    font-size:clamp(2rem, 4vw, 3rem);
+    font-weight:400; color:#1a1a1a;
+    line-height:1.2; margin-bottom:28px;
+  }
+  .why-text p { color:#666; font-size:.92rem; line-height:1.9; margin-bottom:14px; }
+  .why-img { overflow:hidden; }
+  .why-img img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* PRIDE — dark section full width */
+  .pride {
+    background:#2d2d2d;
+    position:relative;
+    overflow:hidden;
+    min-height:460px;
+    display:flex; align-items:center;
+  }
+  .pride-parallax {
+    position:absolute; inset:-100px 0;
+    background-image:url('house2.jpg');
+    background-size:cover; background-position:center;
+    background-attachment:fixed;
+    filter:brightness(0.45);
+    z-index:0;
+  }
+  .pride-text {
+    padding:80px 8%;
+    display:flex; flex-direction:column; justify-content:center;
+    max-width:720px; position:relative; z-index:1;
+  }
+  .pride-text .eyebrow { color:#2abfbf; }
+  .pride-text h2 {
+    font-size:clamp(2rem, 4vw, 3.2rem);
+    font-weight:400; color:#fff;
+    line-height:1.15; margin-bottom:28px;
+    text-shadow:0 2px 12px rgba(0,0,0,0.5);
+  }
+  .pride-text p { color:rgba(255,255,255,0.9); font-size:.95rem; line-height:1.9; margin-bottom:14px; text-shadow:0 1px 6px rgba(0,0,0,0.4); }
+
+  /* PROJECTS GRID */
+  .projects { padding:80px 6%; background:#fff; }
+  .projects-head { margin-bottom:40px; }
+  .projects-head h2 { font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:400; color:#1a1a1a; margin-top:10px; }
+  .projects-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+  }
+  .project-card {
+    position:relative; overflow:hidden;
+    aspect-ratio:3/4;
+  }
+  .project-card img {
+    width:100%; height:100%; object-fit:cover;
+    transition:transform .5s ease;
+    filter:brightness(0.75);
+  }
+  .project-card:hover img { transform:scale(1.05); filter:brightness(0.55); }
+  .project-overlay {
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    justify-content:flex-end; padding:24px 20px;
+    background:linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 60%);
+  }
+  .project-tag {
+    font-size:.72rem; font-weight:700;
+    letter-spacing:1.5px; text-transform:uppercase;
+    color:rgba(255,255,255,0.7); margin-bottom:6px;
+  }
+  .project-title { color:#fff; font-size:1.05rem; font-weight:600; font-family:'Cormorant Garamond',serif; }
+  .project-btn {
+    display:inline-block; margin-top:12px;
+    padding:7px 18px; border:1.5px solid rgba(255,255,255,0.7);
+    color:#fff; font-size:.7rem; font-weight:700;
+    letter-spacing:1.5px; text-transform:uppercase;
+    text-decoration:none; transition:all .2s;
+    opacity:0; transform:translateY(6px); transition:all .3s;
+  }
+  .project-card:hover .project-btn { opacity:1; transform:none; }
+  .project-btn:hover { background:#fff; color:#333; }
+  .view-more { text-align:center; margin-top:36px; }
+  .view-more a {
+    display:inline-block; padding:12px 40px;
+    border:2px solid #333; color:#333;
+    font-size:.78rem; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase;
+    text-decoration:none; transition:all .3s;
+  }
+  .view-more a:hover { background:#333; color:#fff; }
+
+  /* CTA STRIP */
+  .cta-strip {
+    background:#f7f7f7;
+    padding:70px 8%;
+    display:flex; align-items:center; justify-content:space-between;
+    gap:40px; flex-wrap:wrap;
+    border-top:1px solid #eee;
+  }
+  .cta-strip-left .eyebrow { margin-bottom:10px; }
+  .cta-strip-left h2 { font-size:clamp(1.6rem,3vw,2.4rem); font-weight:400; color:#1a1a1a; }
+  .cta-btn {
+    display:inline-block; padding:14px 40px;
+    background:#2abfbf; color:#fff;
+    border-radius:30px; text-decoration:none;
+    font-size:.78rem; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase;
+    white-space:nowrap; transition:background .2s;
+  }
+  .cta-btn:hover { background:#1fa8a8; }
+
+  /* PARTNERS */
+  .partners {
+    padding:50px 8%; background:#fff;
+    border-top:1px solid #f0f0f0;
+    border-bottom:1px solid #f0f0f0;
+  }
+  .partners-label {
+    text-align:center; font-size:.7rem; font-weight:700;
+    letter-spacing:3px; text-transform:uppercase;
+    color:#bbb; margin-bottom:30px;
+  }
+  .partners-row {
+    display:flex; gap:24px; justify-content:center;
+    align-items:center; flex-wrap:wrap;
+  }
+  .partner {
+    padding:10px 22px; border:1px solid #ddd;
+    font-size:.82rem; font-weight:700;
+    color:#999; letter-spacing:1px;
+    text-transform:uppercase; transition:all .2s;
+    border-radius:3px;
+  }
+  .partner:hover { border-color:#2abfbf; color:#2abfbf; }
+
+  /* CONTACT */
+  .contact { padding:90px 8%; background:#fff; }
+  .contact-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; }
+  .contact-left .eyebrow { margin-bottom:14px; }
+  .contact-left h2 { font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:400; color:#1a1a1a; margin-bottom:20px; }
+  .contact-left p { color:#666; font-size:.92rem; line-height:1.9; margin-bottom:28px; }
+  .contact-detail { display:flex; gap:14px; align-items:flex-start; margin-bottom:20px; }
+  .contact-detail-icon { font-size:1.1rem; margin-top:2px; color:#2abfbf; }
+  .contact-detail-label { font-size:.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#aaa; margin-bottom:3px; }
+  .contact-detail-value a, .contact-detail-value span { font-size:.92rem; font-weight:600; color:#333; text-decoration:none; }
+  .contact-detail-value a:hover { color:#2abfbf; }
+
+  .contact-form h3 { font-family:'Cormorant Garamond',serif; font-size:1.6rem; font-weight:400; color:#1a1a1a; margin-bottom:28px; }
+  .form-group { margin-bottom:18px; }
+  .form-group label { display:block; font-size:.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#aaa; margin-bottom:7px; }
+  .form-group input, .form-group textarea {
+    width:100%; background:#fafafa; border:1px solid #e5e5e5;
+    padding:12px 14px; color:#333; font-size:.9rem;
+    font-family:'Raleway',sans-serif; outline:none;
+    border-radius:2px; transition:border-color .2s;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color:#2abfbf; background:#fff; }
+  .form-group textarea { height:120px; resize:none; }
+  .form-submit {
+    width:100%; padding:14px;
+    background:#2abfbf; color:#fff; border:none;
+    font-family:'Raleway',sans-serif;
+    font-size:.78rem; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase;
+    cursor:pointer; border-radius:2px; transition:background .2s;
+  }
+  .form-submit:hover { background:#1fa8a8; }
+
+  /* FOOTER */
+  footer {
+    background:#1a1a1a; padding:48px 8%;
+    display:flex; justify-content:space-between; align-items:center;
+    flex-wrap:wrap; gap:24px;
+  }
+  .footer-logo { font-family:'Raleway',sans-serif; font-weight:800; font-size:1rem; color:#fff; letter-spacing:3px; text-transform:uppercase; }
+  .footer-logo span { color:#2abfbf; }
+  .footer-copy { color:#666; font-size:.82rem; }
+  .footer-right { text-align:right; }
+  .footer-contact a { color:#888; font-size:.82rem; text-decoration:none; display:block; margin-bottom:4px; transition:color .2s; }
+  .footer-contact a:hover { color:#2abfbf; }
+  .footer-social { display:flex; gap:12px; justify-content:flex-end; margin-top:14px; }
+  .footer-social a {
+    width:34px; height:34px; border-radius:50%;
+    border:1px solid #333; display:flex; align-items:center; justify-content:center;
+    color:#666; font-size:.8rem; text-decoration:none; transition:all .2s;
+  }
+  .footer-social a:hover { border-color:#2abfbf; color:#2abfbf; }
+
+  /* FLOAT */
+  .float-call {
+    position:fixed; bottom:26px; right:26px; z-index:200;
+    width:54px; height:54px; border-radius:50%;
+    background:#2abfbf; color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem; text-decoration:none;
+    box-shadow:0 6px 18px rgba(42,191,191,0.4);
+    transition:transform .2s;
+  }
+  .float-call:hover { transform:scale(1.08); }
+  .scroll-top {
+    position:fixed; bottom:92px; right:28px; z-index:200;
+    width:40px; height:40px; border-radius:50%;
+    background:#1a1a1a; color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:.9rem; text-decoration:none;
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    opacity:0; pointer-events:none;
+    transition:opacity .2s, transform .2s;
+  }
+  .scroll-top.visible { opacity:1; pointer-events:all; }
+  .scroll-top:hover { transform:translateY(-3px); }
+
+  /* REVEAL ANIMATIONS */
+  .from-left { opacity:0; transform:translateX(-50px); transition:opacity .7s ease, transform .7s ease; }
+  .from-right { opacity:0; transform:translateX(50px); transition:opacity .7s ease, transform .7s ease; }
+  .from-bottom { opacity:0; transform:translateY(30px); transition:opacity .7s ease, transform .7s ease; }
+  .from-left.visible, .from-right.visible, .from-bottom.visible { opacity:1; transform:none; }
+  .delay-1 { transition-delay:.1s; }
+  .delay-2 { transition-delay:.2s; }
+  .delay-3 { transition-delay:.3s; }
+  .delay-4 { transition-delay:.4s; }
+  @media (max-width:900px) {
+    .nav-links { display:none; }
+    .about, .why, .contact-inner { grid-template-columns:1fr; }
+    .why-img { height:300px; }
+    .projects-grid { grid-template-columns:1fr 1fr; }
+    .cta-strip { flex-direction:column; text-align:center; }
+    footer { flex-direction:column; text-align:center; }
+    .footer-right { text-align:center; }
+    .footer-social { justify-content:center; }
+    .about-img-inner { grid-template-columns:40px 1fr; }
+    .about-img { height:400px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-icon"></div>
+    <div class="logo-text">
+      <div class="top">ProCoat <span style="font-weight:300">NZ</span></div>
+      <div class="bottom">Plastering & Painting</div>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#top" class="active">Home</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact Us</a></li>
+  </ul>
+  <a href="tel:0270000000" class="nav-phone">027 000 0000</a>
+</nav>
+
+<!-- HERO SLIDESHOW -->
+<section class="hero" id="top">
+  <div class="slideshow">
+    <div class="slide active" style="background-image:url('house1.jpg')"></div>
+    <div class="slide" style="background-image:url('house2.jpg')"></div>
+    <div class="slide" style="background-image:url('house3.jpg')"></div>
+    <div class="slide" style="background-image:url('house4.jpg')"></div>
+    <div class="slide" style="background-image:url('house5.jpg')"></div>
+  </div>
+  <div class="slideshow-overlay"></div>
+  <div class="hero-content">
+    <h1>Specialist Plastering &amp; Painting Experts</h1>
+    <p class="hero-sub">From Exterior to Interior Finishing. Uncompromising Quality.</p>
+    <a href="#contact" class="hero-btn">Contact Us Now</a>
+  </div>
+  <div class="slideshow-dots">
+    <span class="dot active" onclick="goToSlide(0)"></span>
+    <span class="dot" onclick="goToSlide(1)"></span>
+    <span class="dot" onclick="goToSlide(2)"></span>
+    <span class="dot" onclick="goToSlide(3)"></span>
+    <span class="dot" onclick="goToSlide(4)"></span>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-img from-left">
+    <div class="about-img-inner">
+      <div class="about-img-bar"></div>
+      <img src="house3.jpg" alt="Pro Coat NZ work">
+    </div>
+  </div>
+  <div class="about-text from-right">
+    <span class="eyebrow">About Us</span>
+    <h2>Excellence and Expertise</h2>
+    <p>Pro Coat NZ is Nelson's trusted plastering and painting specialist. We invite you to discover our local business, where we transform our vision for striking and long-lasting plaster finishes — both interior and exterior — into reality.</p>
+    <p>With over 15 years of dedicated experience in the industry, we take immense pride in enhancing projects through our exceptional plastering and painting services, executed by our committed and skilled team.</p>
+    <p>Our extensive expertise covers exterior plastering and painting, interior finishing, crack repairs and new builds. Whether we apply traditional techniques or innovative methods, we are committed to delivering results that exceed your expectations.</p>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why" id="why">
+  <div class="why-text from-left">
+    <span class="eyebrow">Why Choose Us</span>
+    <h2>Qualified and Licensed</h2>
+    <p>As fully insured tradespeople, we assure that our craftsmanship meets the highest standards of quality and safety. For our clients, this offers invaluable peace of mind, ensuring they receive dependable, high-quality workmanship.</p>
+    <p>For our clients, this offers invaluable peace of mind, ensuring they receive dependable, high-quality workmanship. We take pride in nurturing collaboration with your builder and architect, prioritising open communication, integrity, and efficiency.</p>
+  </div>
+  <div class="why-img from-right">
+    <img src="house4.jpg" alt="Quality plastering work">
+  </div>
+</section>
+
+<!-- PRIDE -->
+<section class="pride">
+  <div class="pride-parallax"></div>
+  <div class="pride-text from-left">
+    <span class="eyebrow">We Take Pride In</span>
+    <h2>Exemplary Craftsmanship.</h2>
+    <p>At the heart of Pro Coat NZ is an unwavering dedication to exceptional craftsmanship. We truly believe that a meticulous attention to detail and a relentless pursuit of excellence are vital in creating finishes that are not only stunning but also enduring.</p>
+    <p>We understand that the success of any project relies on effective communication and collaboration. With a client-centric philosophy, we prioritise listening to your needs and collaborating closely with you throughout the entire process.</p>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section class="projects" id="projects">
+  <div class="projects-head from-left">
+    <span class="eyebrow">Our Work</span>
+    <h2>Recent Projects</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card from-bottom delay-1">
+      <img src="house1.jpg" alt="Interior painting">
+      <div class="project-overlay">
+        <div class="project-tag">Interior</div>
+        <div class="project-title">Interior Paint</div>
+        <a href="#contact" class="project-btn">Enquire</a>
+      </div>
+    </div>
+    <div class="project-card from-bottom delay-2">
+      <img src="house2.jpg" alt="Renovation">
+      <div class="project-overlay">
+        <div class="project-tag">Renovation</div>
+        <div class="project-title">Full Renovation</div>
+        <a href="#contact" class="project-btn">Enquire</a>
+      </div>
+    </div>
+    <div class="project-card from-bottom delay-3">
+      <img src="house3.jpg" alt="Plaster finish">
+      <div class="project-overlay">
+        <div class="project-tag">Plastering</div>
+        <div class="project-title">Plaster Finish</div>
+        <a href="#contact" class="project-btn">Enquire</a>
+      </div>
+    </div>
+    <div class="project-card from-bottom delay-4">
+      <img src="house5.jpg" alt="Exterior render">
+      <div class="project-overlay">
+        <div class="project-tag">Exterior</div>
+        <div class="project-title">Exterior Render</div>
+        <a href="#contact" class="project-btn">Enquire</a>
+      </div>
+    </div>
+  </div>
+  <div class="view-more"><a href="#contact">View More</a></div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <div class="cta-strip-left from-left">
+    <span class="eyebrow">Obtain Your Complimentary Quotation</span>
+    <h2>Get in Touch with Us Now!</h2>
+  </div>
+  <a href="#contact" class="cta-btn">Get a Quote</a>
+</div>
+
+<!-- PARTNERS -->
+<div class="partners">
+  <div class="partners-label">Trusted Brands We Work With</div>
+  <div class="partners-row">
+    <div class="partner">Dulux</div>
+    <div class="partner">Resene</div>
+    <div class="partner">Rockcote</div>
+    <div class="partner">Ezybuild</div>
+    <div class="partner">Sto</div>
+    <div class="partner">Colorsteel</div>
+    <div class="partner">Novacolour</div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="contact-left from-left">
+      <span class="eyebrow">Contact Us</span>
+      <h2>Send Us A Message</h2>
+      <p>Get in touch for a free, no-obligation quote. We cover all of Nelson, Richmond, Motueka and the surrounding areas.</p>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📞</div>
+        <div>
+          <div class="contact-detail-label">Phone</div>
+          <div class="contact-detail-value"><a href="tel:0270000000">027 000 0000</a></div>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">✉️</div>
+        <div>
+          <div class="contact-detail-label">Email</div>
+          <div class="contact-detail-value"><a href="mailto:hello@procoatnz.co.nz">hello@procoatnz.co.nz</a></div>
+        </div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon">📍</div>
+        <div>
+          <div class="contact-detail-label">Location</div>
+          <div class="contact-detail-value"><span>Nelson, New Zealand</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form from-right">
+      <h3>Contact Us</h3>
+      <div class="form-group"><label>Name *</label><input type="text" placeholder="Your full name"></div>
+      <div class="form-group"><label>Email *</label><input type="email" placeholder="Your email address"></div>
+      <div class="form-group"><label>Enquiry *</label><textarea placeholder="Tell us about your project..."></textarea></div>
+      <button class="form-submit">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Pro<span>Coat</span> NZ</div>
+  <div class="footer-copy">© 2026 All Rights Reserved | Pro Coat NZ</div>
+  <div class="footer-right">
+    <div class="footer-contact">
+      <a href="tel:0270000000">Phone: 027 000 0000</a>
+      <a href="mailto:hello@procoatnz.co.nz">hello@procoatnz.co.nz</a>
+    </div>
+    <div class="footer-social">
+      <a href="#">f</a>
+      <a href="#">in</a>
+      <a href="#">✉</a>
+    </div>
+  </div>
+</footer>
+
+<a class="float-call" href="tel:0270000000">📞</a>
+<a class="scroll-top" id="scrollTop" href="#top">↑</a>
+
+<script>
+  // Slideshow
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+
+  function goToSlide(n) {
+    slides[currentSlide].classList.remove('active');
+    dots[currentSlide].classList.remove('active');
+    currentSlide = n;
+    slides[currentSlide].classList.add('active');
+    dots[currentSlide].classList.add('active');
+  }
+
+  function nextSlide() {
+    goToSlide((currentSlide + 1) % slides.length);
+  }
+
+  setInterval(nextSlide, 2000);
+
+  // Scroll top
+  // Scroll reveal — resets when scrolling back up
+  const animEls = document.querySelectorAll('.from-left, .from-right, .from-bottom');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('visible'); }
+      else { e.target.classList.remove('visible'); }
+    });
+  }, { threshold:0.12 });
+  animEls.forEach(el => observer.observe(el));
+
+  // Scroll top
+  window.addEventListener('scroll', function(){
+    const btn = document.getElementById('scrollTop');
+    if(window.scrollY > 400){ btn.classList.add('visible'); } else { btn.classList.remove('visible'); }
+  });
+</script>
+</body>
+</html>
